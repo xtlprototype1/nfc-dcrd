@@ -72,7 +72,7 @@ export async function login(email, password) {
     }
 
     alert("✅ Login successful!");
-    window.location.href = "admin.html"; // Redirect to admin dashboard
+    window.location.href = "profile.html"; // ✅ redirect to profile page after login
     return "";
   } catch (error) {
     console.error("Login Error:", error.message);
