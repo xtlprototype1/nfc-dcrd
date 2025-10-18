@@ -93,6 +93,13 @@
       display: block;
     }
     #uploadLabel:hover { text-decoration: underline; }
+    #progressContainer {
+      text-align: center;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: #253528;
+      display: none;
+    }
     @media (max-width: 480px) {
       .profile-card { padding: 20px; }
       input, button { font-size: 0.95rem; }
@@ -106,13 +113,14 @@
     <img id="profilePhoto" class="photo" src="https://via.placeholder.com/110x110.png?text=Profile" alt="Profile Photo">
     <label id="uploadLabel" for="photoUpload">Change Photo</label>
     <input type="file" id="photoUpload" accept="image/*" style="display:none">
+    <div id="progressContainer">Uploading... 0%</div>
 
     <form id="profileForm">
       <label for="fullName">Full Name</label>
       <input type="text" id="fullName" placeholder="Enter your name">
 
       <label for="emailField">Email</label>
-      <input type="email" id="emailField" placeholder="Enter your email" disabled>
+      <input type="email" id="emailField" placeholder="Enter your email" readonly>
 
       <label for="phoneField">Phone</label>
       <input type="text" id="phoneField" placeholder="Enter your phone number">
@@ -131,14 +139,15 @@
   <script type="module">
     import { auth, db, storage, logout } from './firebase.js';
     import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-    import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-storage.js";
+    import { ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-storage.js";
 
     const form = document.getElementById("profileForm");
     const photoUpload = document.getElementById("photoUpload");
     const profilePhoto = document.getElementById("profilePhoto");
+    const progressContainer = document.getElementById("progressContainer");
     const logoutBtn = document.getElementById("logoutBtn");
 
-    // Load existing user data
+    // 🔹 Load existing user data
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         window.location.href = "index.html";
@@ -160,25 +169,43 @@
       }
     });
 
-    // Handle photo upload
+    // 🔹 Handle photo upload with progress
     photoUpload.addEventListener("change", async (e) => {
       const file = e.target.files[0];
       if (!file) return;
 
       const user = auth.currentUser;
-      if (!user) return;
+      if (!user) {
+        alert("You must be logged in to upload a photo!");
+        return;
+      }
 
       const storageRef = ref(storage, `profile_photos/${user.uid}`);
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+      const uploadTask = uploadBytesResumable(storageRef, file);
 
-      profilePhoto.src = downloadURL;
+      progressContainer.style.display = "block";
 
-      await setDoc(doc(db, "users", user.uid), { photoURL: downloadURL }, { merge: true });
-      alert("✅ Profile photo updated!");
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          progressContainer.textContent = `Uploading... ${Math.round(progress)}%`;
+        }, 
+        (error) => {
+          console.error("Upload error:", error);
+          alert("❌ Upload failed: " + error.message);
+          progressContainer.style.display = "none";
+        }, 
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          profilePhoto.src = downloadURL;
+          await setDoc(doc(db, "users", user.uid), { photoURL: downloadURL }, { merge: true });
+          progressContainer.textContent = "✅ Upload complete!";
+          setTimeout(() => (progressContainer.style.display = "none"), 2000);
+        }
+      );
     });
 
-    // Save text fields
+    // 🔹 Save profile info
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const user = auth.currentUser;
@@ -197,7 +224,7 @@
       alert("✅ Profile updated successfully!");
     });
 
-    // Logout
+    // 🔹 Logout
     logoutBtn.addEventListener("click", async () => {
       await logout();
     });
