@@ -1,267 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Edit Your Business Card - NFC Digital Business Card</title>
+  <meta charset="UTF-8" />
+  <title>My Profile - NFC Digital Business Card</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap">
   <style>
-    :root {
-      --background: #f8f8f6;
-      --accent: #e3ede6;
-      --taupe-green: #46635f;
-      --primary: #253528;
-      --input-border: #b5c2b7;
-      --input-bg: #f3f7f4;
-      --card-radius: 18px;
-      --card-shadow: 0 4px 32px rgba(70, 99, 95, 0.10);
-      --button-bg: #46635f;
-      --button-hover: #253528;
-      --button-text: #fff;
-    }
     body {
-      min-height: 100vh;
       margin: 0;
-      background: linear-gradient(135deg, var(--background) 65%, var(--accent) 100%);
       font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8f8f6 65%, #e3ede6 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-    }
-    .container {
       min-height: 100vh;
-      width: 100vw;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
     }
-    .portrait-card {
+    .profile-card {
       background: #fff;
-      border-radius: var(--card-radius);
-      box-shadow: var(--card-shadow);
-      max-width: 420px;
-      width: 100%;
-      padding: 48px 38px 32px 38px;
-      text-align: center;
-      margin: 0 auto;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(70,99,95,0.10);
+      width: 95%;
+      max-width: 500px;
+      padding: 32px 38px;
+      box-sizing: border-box;
     }
     h2 {
-      color: var(--primary);
-      font-size: 1.38rem;
+      color: #253528;
+      font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 32px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      margin-bottom: 24px;
       text-align: center;
     }
-    .profile-pic-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-    .profile-pic-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      width: 100%;
-    }
-    .profile-pic-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 120px;
-      height: 120px;
-      margin: 0;
-    }
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #eee;
-      border: 0.5px solid var(--input-border);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      cursor: pointer;
-      transition: box-shadow 0.2s;
-      display: block;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    /* No label inside the circle */
-    .edit-pic-btn {
-      background: #fff;
-      border-radius: 50%;
-      border: 1px solid var(--input-border);
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-      transition: background 0.2s, border 0.2s;
-      margin-left: 0;
-    }
-    .edit-pic-btn:hover {
-      background: var(--accent);
-      border-color: var(--primary);
-    }
-    .edit-icon {
-      width: 18px;
-      height: 18px;
-      fill: #46635f;
-    }
     form {
-      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      margin-bottom: 14px;
     }
-    input[type="email"], input[type="password"], input[type="text"], input[type="file"], textarea {
-      padding: 13px 14px;
+    label {
+      font-weight: 600;
+      color: #253528;
+      font-size: 0.95rem;
+      text-align: left;
+    }
+    input {
+      padding: 12px 14px;
       border-radius: 8px;
-      border: 1.5px solid var(--input-border);
-      background: var(--input-bg);
-      font-size: 1.07rem;
-      color: var(--primary);
+      border: 1.5px solid #b5c2b7;
+      background: #f3f7f4;
+      font-size: 1rem;
+      color: #253528;
       outline: none;
-      font-family: inherit;
       transition: border 0.2s, background 0.2s;
-      margin-bottom: 0;
-      box-sizing: border-box;
     }
-    input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, textarea:focus {
-      border-color: var(--taupe-green);
+    input:focus {
+      border-color: #46635f;
       background: #edf4ef;
     }
-    textarea { resize: vertical; min-height: 40px;}
-    button[type="submit"], #logoutBtn {
-      background: var(--button-bg);
-      color: var(--button-text);
+    button {
+      background: #46635f;
+      color: #fff;
       border: none;
       border-radius: 32px;
-      padding: 15px 0;
-      font-size: 1.13rem;
+      padding: 14px 0;
+      font-size: 1.1rem;
       font-weight: 600;
-      width: 100%;
       cursor: pointer;
-      margin-top: 18px;
-      margin-bottom: 8px;
       transition: background 0.2s;
-      box-shadow: 0 2px 8px rgba(70,99,95,0.06);
-      letter-spacing: 1px;
+      box-shadow: 0 2px 10px rgba(70,99,95,0.06);
+      letter-spacing: 0.5px;
     }
-    button[type="submit"]:hover, #logoutBtn:hover {
-      background: var(--button-hover);
-    }
-    #publicLink {
-      color: var(--taupe-green);
-      font-weight: 600;
-      font-size: 1.01rem;
+    button:hover { background: #253528; }
+    .logout-btn {
+      background: #d04b4b;
       margin-top: 10px;
-      text-decoration: none;
-      border-bottom: 1px dashed var(--taupe-green);
-      transition: border 0.2s;
-      display: inline-block;
     }
-    #publicLink:hover {
-      border-bottom: 2px solid var(--taupe-green);
-      color: var(--primary);
+    .logout-btn:hover { background: #a53c3c; }
+    .photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 16px auto;
+      border: 3px solid #46635f;
     }
-    #profileMsg {
-      color: #d04b4b;
-      font-size: 1.02rem;
+    #uploadLabel {
+      color: #46635f;
+      cursor: pointer;
       text-align: center;
-      min-height: 24px;
-      margin-top: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      display: block;
     }
-    @media (max-width: 500px) {
-      .container { padding: 0; }
-      .portrait-card { padding: 22px 7vw 22px 7vw; }
-      h2 { font-size: 1.09rem; }
-      input, button { font-size: 0.98rem;}
-      form { gap: 10px;}
-      .profile-pic { width: 80px; height: 80px;}
-      .profile-pic-wrapper { width: 80px; height: 80px;}
-      .edit-pic-btn { width: 24px; height: 24px;}
-      .profile-pic-row { gap: 10px; }
+    #uploadLabel:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      .profile-card { padding: 20px; }
+      input, button { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="portrait-card" id="profileCard">
-      <h2>EDIT YOUR BUSINESS CARD</h2>
-      <div class="profile-pic-section">
-        <div class="profile-pic-row">
-          <div class="profile-pic-wrapper" id="profilePicWrapper">
-            <img id="profileImg" src="icons/default-profile.png" alt="Profile Picture" class="profile-pic">
-            <input type="file" id="imgUpload" accept="image/*" style="display:none">
-          </div>
-          <button class="edit-pic-btn" id="editPicBtn" title="Edit photo" type="button">
-            <svg class="edit-icon" viewBox="0 0 20 20"><path d="M14.846 3.897a2.211 2.211 0 0 1 3.13 3.13l-9.18 9.18-3.13.87.87-3.13 9.18-9.18zm-1.414-1.414l-9.18 9.18a1.5 1.5 0 0 0-.438.967l-.87 3.13a1 1 0 0 0 1.217 1.216l3.13-.87a1.5 1.5 0 0 0 .967-.438l9.18-9.18a3.211 3.211 0 1 0-4.376-4.376z"/></svg>
-          </button>
-        </div>
-      </div>
-      <form id="profileForm" enctype="multipart/form-data">
-        <input type="text" id="fullName" placeholder="Full Name" required>
-        <input type="text" id="jobTitle" placeholder="Job Title" required>
-        <input type="text" id="company" placeholder="Company / Organization">
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="text" id="phone" placeholder="Phone Number">
-        <input type="text" id="website" placeholder="Website">
-        <input type="text" id="facebook" placeholder="Facebook URL">
-        <input type="text" id="instagram" placeholder="Instagram URL">
-        <input type="text" id="linkedin" placeholder="LinkedIn URL">
-        <input type="text" id="twitter" placeholder="Twitter URL">
-        <input type="text" id="address" placeholder="Address">
-        <button type="submit">Save</button>
-      </form>
-      <a id="publicLink" href="#">View Public Profile</a>
-      <button id="logoutBtn">Logout</button>
-      <div id="profileMsg"></div>
-    </div>
+  <div class="profile-card">
+    <h2>My Profile</h2>
+
+    <img id="profilePhoto" class="photo" src="https://via.placeholder.com/110x110.png?text=Profile" alt="Profile Photo">
+    <label id="uploadLabel" for="photoUpload">Change Photo</label>
+    <input type="file" id="photoUpload" accept="image/*" style="display:none">
+
+    <form id="profileForm">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" placeholder="Enter your name">
+
+      <label for="emailField">Email</label>
+      <input type="email" id="emailField" placeholder="Enter your email" disabled>
+
+      <label for="phoneField">Phone</label>
+      <input type="text" id="phoneField" placeholder="Enter your phone number">
+
+      <label for="addressField">Address</label>
+      <input type="text" id="addressField" placeholder="Enter your address">
+
+      <label for="websiteField">Website</label>
+      <input type="text" id="websiteField" placeholder="Your website or portfolio link">
+
+      <button type="submit">Save Profile</button>
+      <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
+    </form>
   </div>
-  <script type="module" src="firebase.js"></script>
+
   <script type="module">
-    import { authCheck, getProfile, saveProfile, uploadProfilePic, logout, getPublicUrl } from './firebase.js';
-    let uid, profileData;
-    authCheck(async (user, username) => {
-      uid = user.uid;
-      profileData = await getProfile(username);
-      Object.keys(profileData).forEach(k => {
-        if(document.getElementById(k)) document.getElementById(k).value = profileData[k] || '';
-      });
-      if(profileData.photoURL) profileImg.src = profileData.photoURL;
-      publicLink.href = getPublicUrl(username);
-      publicLink.innerText = "View Public Profile";
-    });
-    editPicBtn.onclick = () => imgUpload.click();
-    profileImg.onclick = () => imgUpload.click();
-    imgUpload.onchange = async (e) => {
-      const file = e.target.files[0];
-      if(file) {
-        const url = await uploadProfilePic(uid, file);
-        profileImg.src = url;
-        profileData.photoURL = url;
+    import { auth, db, storage, logout } from './firebase.js';
+    import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+    import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-storage.js";
+
+    const form = document.getElementById("profileForm");
+    const photoUpload = document.getElementById("photoUpload");
+    const profilePhoto = document.getElementById("profilePhoto");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    // Load existing user data
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
       }
-    };
-    profileForm.onsubmit = async (e) => {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById("fullName").value = data.fullName || "";
+        document.getElementById("emailField").value = data.email || user.email;
+        document.getElementById("phoneField").value = data.phone || "";
+        document.getElementById("addressField").value = data.address || "";
+        document.getElementById("websiteField").value = data.website || "";
+        if (data.photoURL) profilePhoto.src = data.photoURL;
+      } else {
+        document.getElementById("emailField").value = user.email;
+      }
+    });
+
+    // Handle photo upload
+    photoUpload.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const storageRef = ref(storage, `profile_photos/${user.uid}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+
+      profilePhoto.src = downloadURL;
+
+      await setDoc(doc(db, "users", user.uid), { photoURL: downloadURL }, { merge: true });
+      alert("✅ Profile photo updated!");
+    });
+
+    // Save text fields
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      let data = {};
-      ["fullName","jobTitle","company","email","phone","website","facebook","instagram","linkedin","twitter","address"].forEach(id=>{
-        data[id]=document.getElementById(id).value.trim();
-      });
-      data.photoURL = profileImg.src;
-      const msg = await saveProfile(uid, data);
-      document.getElementById("profileMsg").innerText = msg;
-    };
-    logoutBtn.onclick = logout;
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const profileData = {
+        fullName: document.getElementById("fullName").value,
+        email: document.getElementById("emailField").value,
+        phone: document.getElementById("phoneField").value,
+        address: document.getElementById("addressField").value,
+        website: document.getElementById("websiteField").value,
+        updatedAt: new Date()
+      };
+
+      await setDoc(doc(db, "users", user.uid), profileData, { merge: true });
+      alert("✅ Profile updated successfully!");
+    });
+
+    // Logout
+    logoutBtn.addEventListener("click", async () => {
+      await logout();
+    });
   </script>
 </body>
 </html>
